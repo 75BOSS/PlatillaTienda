@@ -4,8 +4,8 @@
  * Ejecuta este archivo desde el navegador UNA SOLA VEZ
  */
 
-require_once __DIR__ . '/../config/config.php';
-require_once __DIR__ . '/../app/models/Database.php';
+require_once __DIR__ . '/config/config.php';
+require_once __DIR__ . '/app/models/Database.php';
 
 echo "<!DOCTYPE html>
 <html lang='es'>

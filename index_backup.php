@@ -10,7 +10,7 @@ error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
 try {
-    require_once __DIR__ . '/../config/config.php';
+    require_once __DIR__ . '/config/config.php';
 } catch (Exception $e) {
     die("Error cargando configuración: " . $e->getMessage());
 }
@@ -56,7 +56,7 @@ $pageCSS = [
 
 // Incluir header de forma segura
 try {
-    include __DIR__ . '/includes/header.php';
+    include __DIR__ . '/public/includes/header.php';
 } catch (Exception $e) {
     die("Error cargando header: " . $e->getMessage());
 }
@@ -263,7 +263,7 @@ try {
 <?php 
 // Incluir footer de forma segura
 try {
-    include __DIR__ . '/includes/footer.php';
+    include __DIR__ . '/public/includes/footer.php';
 } catch (Exception $e) {
     echo "</main>";
     echo "<footer style='background: #f8f8f8; padding: 20px; text-align: center;'>";

@@ -5,7 +5,7 @@
  * ===================================================================
  */
 
-require_once __DIR__ . '/../config/config.php';
+require_once __DIR__ . '/config/config.php';
 
 // Procesar formulario si se envió
 $formSubmitted = false;
@@ -47,7 +47,7 @@ $pageCSS = [
     'pages/contact.css'
 ];
 
-include __DIR__ . '/includes/header.php';
+include __DIR__ . '/public/includes/header.php';
 ?>
 
 <!-- Page Header -->
@@ -236,4 +236,4 @@ include __DIR__ . '/includes/header.php';
     </div>
 </section>
 
-<?php include __DIR__ . '/includes/footer.php'; ?>
+<?php include __DIR__ . '/public/includes/footer.php'; ?>

@@ -69,8 +69,8 @@ echo "</div>";
 echo "<div class='section'>";
 echo "<h2>3. Verificación de Configuración</h2>";
 
-if (file_exists('../config/config.php')) {
-    require_once '../config/config.php';
+if (file_exists('./config/config.php')) {
+    require_once './config/config.php';
     
     echo "<p class='ok'>✅ Archivo de configuración cargado</p>";
     echo "<p><strong>DB_HOST:</strong> " . (defined('DB_HOST') ? DB_HOST : '<span class="error">NO DEFINIDO</span>') . "</p>";
@@ -87,9 +87,9 @@ echo "</div>";
 echo "<div class='section'>";
 echo "<h2>4. Prueba de Conexión a Base de Datos</h2>";
 
-if (file_exists('../config/config.php') && file_exists('../app/models/Database.php')) {
+if (file_exists('./config/config.php') && file_exists('./app/models/Database.php')) {
     try {
-        require_once '../app/models/Database.php';
+        require_once './app/models/Database.php';
         $db = Database::getInstance();
         echo "<p class='ok'>✅ Conexión a la base de datos exitosa</p>";
         

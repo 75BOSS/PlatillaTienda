@@ -10,7 +10,7 @@
  * - Badge "DESTACADO" para productos featured
  */
 
-require_once __DIR__ . '/../config/config.php';
+require_once __DIR__ . '/config/config.php';
 
 // Obtener parámetros de búsqueda, filtros y ordenamiento
 $searchQuery = isset($_GET['buscar']) ? trim($_GET['buscar']) : '';
@@ -26,7 +26,7 @@ $totalProducts = 0;
 $selectedCategory = null;
 
 try {
-    require_once __DIR__ . '/../app/models/Category.php';
+    require_once __DIR__ . '/app/models/Category.php';
     $categoryModel = new Category();
     $categories = $categoryModel->getAll(true);
     
@@ -45,7 +45,7 @@ try {
 }
 
 try {
-    require_once __DIR__ . '/../app/models/Product.php';
+    require_once __DIR__ . '/app/models/Product.php';
     $productModel = new Product();
     
     // Obtener productos según filtros
@@ -147,7 +147,7 @@ $pageCSS = [
     'pages/catalog.css'
 ];
 
-include __DIR__ . '/includes/header.php';
+include __DIR__ . '/public/includes/header.php';
 ?>
 
 <!-- Hero del Catálogo -->
@@ -406,4 +406,4 @@ function toggleMobileSidebar() {
 }
 </script>
 
-<?php include __DIR__ . '/includes/footer.php'; ?>
+<?php include __DIR__ . '/public/includes/footer.php'; ?>

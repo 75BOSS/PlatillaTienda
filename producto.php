@@ -5,7 +5,7 @@
  * ===================================================================
  */
 
-require_once __DIR__ . '/../config/config.php';
+require_once __DIR__ . '/config/config.php';
 
 // Obtener ID del producto
 $productId = isset($_GET['id']) ? (int)$_GET['id'] : 0;
@@ -24,8 +24,8 @@ $debugInfo = [];
 $hasError = false;
 
 try {
-    require_once __DIR__ . '/../app/models/Product.php';
-    require_once __DIR__ . '/../app/models/Category.php';
+    require_once __DIR__ . '/app/models/Product.php';
+    require_once __DIR__ . '/app/models/Category.php';
     
     $productModel = new Product();
     $categoryModel = new Category();
@@ -91,7 +91,7 @@ $pageCSS = [
     'pages/product-detail.css'
 ];
 
-include __DIR__ . '/includes/header.php';
+include __DIR__ . '/public/includes/header.php';
 ?>
 
 <!-- Product Detail -->
@@ -619,4 +619,4 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 </script>
 
-<?php include __DIR__ . '/includes/footer.php'; ?>
+<?php include __DIR__ . '/public/includes/footer.php'; ?>

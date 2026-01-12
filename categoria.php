@@ -5,7 +5,7 @@
  * ===================================================================
  */
 
-require_once __DIR__ . '/../config/config.php';
+require_once __DIR__ . '/config/config.php';
 
 // Obtener slug de categoría
 $categorySlug = isset($_GET['slug']) ? trim($_GET['slug']) : '';
@@ -20,8 +20,8 @@ $category = null;
 $products = [];
 
 try {
-    require_once __DIR__ . '/../app/models/Category.php';
-    require_once __DIR__ . '/../app/models/Product.php';
+    require_once __DIR__ . '/app/models/Category.php';
+    require_once __DIR__ . '/app/models/Product.php';
     
     $categoryModel = new Category();
     $productModel = new Product();
@@ -50,7 +50,7 @@ $pageCSS = [
     'pages/catalog.css'
 ];
 
-include __DIR__ . '/includes/header.php';
+include __DIR__ . '/public/includes/header.php';
 ?>
 
 <!-- Category Header -->
@@ -177,4 +177,4 @@ include __DIR__ . '/includes/header.php';
     </div>
 </section>
 
-<?php include __DIR__ . '/includes/footer.php'; ?>
+<?php include __DIR__ . '/public/includes/footer.php'; ?>
