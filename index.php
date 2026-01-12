@@ -1,9 +1,66 @@
 <?php
 require_once __DIR__ . '/config/config.php';
+require_once __DIR__ . '/app/models/Product.php';
+require_once __DIR__ . '/app/models/Category.php';
+require_once __DIR__ . '/app/models/Promotion.php';
 
 $pageTitle = "Inicio";
 $currentPage = "inicio";
 $pageCSS = [];
+
+// Inicializar modelos
+$productModel = new Product();
+$categoryModel = new Category();
+$promotionModel = new Promotion();
+
+// Obtener datos para el frontend
+try {
+    // Obtener promoción activa
+    $activePromotion = $promotionModel->getActive();
+    
+    // Obtener categorías principales (máximo 6 para el grid)
+    $categories = $categoryModel->getAll(true);
+    $featuredCategories = array_slice($categories, 0, 6);
+    
+    // Obtener productos destacados (is_featured = 1)
+    $featuredProducts = $productModel->getAll(true);
+    $bestSellers = array_filter($featuredProducts, function($product) {
+        return $product['is_featured'] == 1;
+    });
+    $bestSellers = array_slice($bestSellers, 0, 8);
+    
+    // Obtener productos nuevos (is_new = 1)
+    $newProducts = array_filter($featuredProducts, function($product) {
+        return $product['is_new'] == 1;
+    });
+    $newProducts = array_slice($newProducts, 0, 6);
+    
+    // Si no hay productos marcados como nuevos, tomar los más recientes
+    if (empty($newProducts)) {
+        $allProducts = $productModel->getAll(true);
+        usort($allProducts, function($a, $b) {
+            return strtotime($b['created_at']) - strtotime($a['created_at']);
+        });
+        $newProducts = array_slice($allProducts, 0, 6);
+    }
+    
+    // Obtener todos los productos para la sección final
+    $allProducts = $productModel->getAll(true);
+    $allProductsDisplay = array_slice($allProducts, 0, 12);
+    
+} catch (Exception $e) {
+    // En caso de error, usar arrays vacíos
+    $activePromotion = null;
+    $featuredCategories = [];
+    $bestSellers = [];
+    $newProducts = [];
+    $allProductsDisplay = [];
+    
+    // Log del error si está habilitado el debug
+    if (DEBUG_MODE) {
+        error_log("Error en index.php: " . $e->getMessage());
+    }
+}
 
 // Incluir header sin problemas de base de datos
 ?>
@@ -65,36 +122,41 @@ $pageCSS = [];
     </div>
     
     <!-- Promo Bar (Editable desde Admin) -->
-    <div class="promo-bar" id="promoBar" style="display: block;">
+    <?php if ($activePromotion): ?>
+    <div class="promo-bar" id="promoBar" style="display: block; background-color: <?php echo htmlspecialchars($activePromotion['background_color']); ?>; color: <?php echo htmlspecialchars($activePromotion['text_color']); ?>;">
         <div class="container">
             <div class="promo-content">
-                <h3 class="promo-title">🔥 MEGA DESCUENTOS DE TEMPORADA</h3>
-                <p class="promo-description">Hasta 50% OFF en toda la colección de invierno</p>
+                <h3 class="promo-title"><?php echo htmlspecialchars($activePromotion['title']); ?></h3>
+                <?php if (!empty($activePromotion['description'])): ?>
+                <p class="promo-description"><?php echo htmlspecialchars($activePromotion['description']); ?></p>
+                <?php endif; ?>
             </div>
+            <?php if ($activePromotion['show_countdown']): ?>
             <div class="promo-countdown">
                 <span class="countdown-icon">⏰</span>
                 <div class="countdown-timer" id="countdownTimer">
                     <div class="countdown-item">
-                        <span class="countdown-value" id="days">15</span>
+                        <span class="countdown-value" id="days">00</span>
                         <span class="countdown-label">días</span>
                     </div>
                     <span class="countdown-separator">:</span>
                     <div class="countdown-item">
-                        <span class="countdown-value" id="hours">08</span>
+                        <span class="countdown-value" id="hours">00</span>
                         <span class="countdown-label">hrs</span>
                     </div>
                     <span class="countdown-separator">:</span>
                     <div class="countdown-item">
-                        <span class="countdown-value" id="minutes">45</span>
+                        <span class="countdown-value" id="minutes">00</span>
                         <span class="countdown-label">min</span>
                     </div>
                     <span class="countdown-separator">:</span>
                     <div class="countdown-item">
-                        <span class="countdown-value" id="seconds">30</span>
+                        <span class="countdown-value" id="seconds">00</span>
                         <span class="countdown-label">seg</span>
                     </div>
                 </div>
             </div>
+            <?php endif; ?>
             <button class="promo-close" onclick="closePromoBar()" aria-label="Cerrar promoción">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                     <line x1="18" y1="6" x2="6" y2="18"></line>
@@ -103,6 +165,7 @@ $pageCSS = [];
             </button>
         </div>
     </div>
+    <?php endif; ?>
     
     <!-- Header -->
     <header class="site-header">
@@ -285,59 +348,36 @@ $pageCSS = [];
         </div>
         
         <div class="categories-grid">
+            <?php foreach ($featuredCategories as $category): ?>
+            <div class="category-card">
+                <div class="category-image" style="background-image: url('<?php echo htmlspecialchars($category['image_url'] ?: 'https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=400&h=400&fit=crop'); ?>');">
+                    <div class="category-overlay">
+                        <h3 class="category-name"><?php echo htmlspecialchars($category['name']); ?></h3>
+                        <span class="category-count"><?php echo $categoryModel->getProductCount($category['id']); ?> productos</span>
+                    </div>
+                </div>
+            </div>
+            <?php endforeach; ?>
+            
+            <?php if (empty($featuredCategories)): ?>
+            <!-- Categorías de ejemplo si no hay datos -->
             <div class="category-card">
                 <div class="category-image" style="background-image: url('https://images.unsplash.com/photo-1445205170230-053b83016050?w=400&h=400&fit=crop');">
                     <div class="category-overlay">
                         <h3 class="category-name">Ropa de Mujer</h3>
-                        <span class="category-count">12 subcategorías</span>
+                        <span class="category-count">0 productos</span>
                     </div>
                 </div>
             </div>
-            
             <div class="category-card">
                 <div class="category-image" style="background-image: url('https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop');">
                     <div class="category-overlay">
                         <h3 class="category-name">Ropa de Hombre</h3>
-                        <span class="category-count">8 subcategorías</span>
+                        <span class="category-count">0 productos</span>
                     </div>
                 </div>
             </div>
-            
-            <div class="category-card">
-                <div class="category-image" style="background-image: url('https://images.unsplash.com/photo-1492707892479-7bc8d5a4ee93?w=400&h=400&fit=crop');">
-                    <div class="category-overlay">
-                        <h3 class="category-name">Accesorios</h3>
-                        <span class="category-count">15 subcategorías</span>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="category-card">
-                <div class="category-image" style="background-image: url('https://images.unsplash.com/photo-1549298916-b41d501d3772?w=400&h=400&fit=crop');">
-                    <div class="category-overlay">
-                        <h3 class="category-name">Calzado</h3>
-                        <span class="category-count">6 subcategorías</span>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="category-card">
-                <div class="category-image" style="background-image: url('https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=400&h=400&fit=crop');">
-                    <div class="category-overlay">
-                        <h3 class="category-name">Hogar</h3>
-                        <span class="category-count">10 subcategorías</span>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="category-card">
-                <div class="category-image" style="background-image: url('https://images.unsplash.com/photo-1498049794561-7780e7231661?w=400&h=400&fit=crop');">
-                    <div class="category-overlay">
-                        <h3 class="category-name">Electrónica</h3>
-                        <span class="category-count">5 subcategorías</span>
-                    </div>
-                </div>
-            </div>
+            <?php endif; ?>
         </div>
     </div>
 </section>
@@ -357,22 +397,23 @@ $pageCSS = [];
         </div>
         
         <div class="products-grid">
-            <?php for($i = 1; $i <= 8; $i++): ?>
+            <?php foreach ($bestSellers as $product): ?>
             <div class="product-card">
-                <?php if($i <= 3): ?>
+                <?php if (!empty($product['discount_percent'])): ?>
                 <div class="product-badges">
-                    <span class="badge-discount">-<?php echo 20 + ($i * 10); ?>%</span>
+                    <span class="badge-discount">-<?php echo $product['discount_percent']; ?>%</span>
                 </div>
                 <?php endif; ?>
                 
-                <?php if($i == 1 || $i == 4): ?>
+                <?php if ($product['is_new']): ?>
                 <div class="product-badges">
                     <span class="badge-new">NUEVO</span>
                 </div>
                 <?php endif; ?>
                 
                 <div class="product-image">
-                    <img src="https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=300&h=300&fit=crop" alt="Producto <?php echo $i; ?>" loading="lazy">
+                    <img src="<?php echo htmlspecialchars($product['image_url'] ?: 'https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=300&h=300&fit=crop'); ?>" 
+                         alt="<?php echo htmlspecialchars($product['name']); ?>" loading="lazy">
                     <div class="product-overlay">
                         <button class="btn-add-cart">Añadir</button>
                         <button class="btn-favorite" aria-label="Agregar a favoritos">
@@ -384,7 +425,62 @@ $pageCSS = [];
                 </div>
                 
                 <div class="product-info">
-                    <h3 class="product-name">Producto Destacado <?php echo $i; ?></h3>
+                    <h3 class="product-name"><?php echo htmlspecialchars($product['name']); ?></h3>
+                    
+                    <div class="product-rating">
+                        <div class="stars">
+                            <?php 
+                            $rating = $product['rating'] ?: 4; // Default 4 stars si no hay rating
+                            for($j = 1; $j <= 5; $j++): 
+                            ?>
+                            <span class="star <?php echo $j <= $rating ? 'filled' : ''; ?>">★</span>
+                            <?php endfor; ?>
+                        </div>
+                        <span class="rating-count">(<?php echo $product['reviews_count'] ?: 0; ?> reviews)</span>
+                    </div>
+                    
+                    <div class="product-price">
+                        <span class="price-current">$<?php echo number_format($product['price'], 2); ?></span>
+                        <?php if (!empty($product['original_price']) && $product['original_price'] > $product['price']): ?>
+                        <span class="price-original">$<?php echo number_format($product['original_price'], 2); ?></span>
+                        <?php endif; ?>
+                    </div>
+                    
+                    <div class="product-variants">
+                        <?php 
+                        // Mostrar variantes de color si existen
+                        $colors = ['#800000', '#000000', '#FFFFFF', '#D4AF37'];
+                        foreach($colors as $color): 
+                        ?>
+                        <span class="variant-color" style="background: <?php echo $color; ?>; <?php echo $color === '#FFFFFF' ? 'border: 1px solid #ddd;' : ''; ?>" title="Color"></span>
+                        <?php endforeach; ?>
+                    </div>
+                </div>
+            </div>
+            <?php endforeach; ?>
+            
+            <?php if (empty($bestSellers)): ?>
+            <!-- Productos de ejemplo si no hay datos -->
+            <?php for($i = 1; $i <= 4; $i++): ?>
+            <div class="product-card">
+                <div class="product-badges">
+                    <span class="badge-discount">-<?php echo 20 + ($i * 5); ?>%</span>
+                </div>
+                
+                <div class="product-image">
+                    <img src="https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=300&h=300&fit=crop" alt="Producto Ejemplo <?php echo $i; ?>" loading="lazy">
+                    <div class="product-overlay">
+                        <button class="btn-add-cart">Añadir</button>
+                        <button class="btn-favorite" aria-label="Agregar a favoritos">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="product-info">
+                    <h3 class="product-name">Producto Ejemplo <?php echo $i; ?></h3>
                     
                     <div class="product-rating">
                         <div class="stars">
@@ -392,14 +488,12 @@ $pageCSS = [];
                             <span class="star <?php echo $j <= 4 ? 'filled' : ''; ?>">★</span>
                             <?php endfor; ?>
                         </div>
-                        <span class="rating-count">(<?php echo 15 + $i; ?> reviews)</span>
+                        <span class="rating-count">(15 reviews)</span>
                     </div>
                     
                     <div class="product-price">
                         <span class="price-current">$<?php echo 45 + ($i * 8); ?></span>
-                        <?php if($i <= 3): ?>
                         <span class="price-original">$<?php echo 65 + ($i * 8); ?></span>
-                        <?php endif; ?>
                     </div>
                     
                     <div class="product-variants">
@@ -411,6 +505,7 @@ $pageCSS = [];
                 </div>
             </div>
             <?php endfor; ?>
+            <?php endif; ?>
         </div>
     </div>
 </section>
@@ -430,7 +525,56 @@ $pageCSS = [];
         </div>
         
         <div class="products-grid">
-            <?php for($i = 1; $i <= 6; $i++): ?>
+            <?php foreach ($newProducts as $product): ?>
+            <div class="product-card">
+                <div class="product-badges">
+                    <span class="badge-new">NUEVO</span>
+                </div>
+                
+                <div class="product-image">
+                    <img src="<?php echo htmlspecialchars($product['image_url'] ?: 'https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?w=300&h=300&fit=crop'); ?>" 
+                         alt="<?php echo htmlspecialchars($product['name']); ?>" loading="lazy">
+                    <div class="product-overlay">
+                        <button class="btn-add-cart">Añadir</button>
+                        <button class="btn-favorite" aria-label="Agregar a favoritos">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="product-info">
+                    <h3 class="product-name"><?php echo htmlspecialchars($product['name']); ?></h3>
+                    
+                    <div class="product-rating">
+                        <div class="stars">
+                            <?php 
+                            $rating = $product['rating'] ?: 5; // Default 5 stars para productos nuevos
+                            for($j = 1; $j <= 5; $j++): 
+                            ?>
+                            <span class="star <?php echo $j <= $rating ? 'filled' : ''; ?>">★</span>
+                            <?php endfor; ?>
+                        </div>
+                        <span class="rating-count">(<?php echo $product['reviews_count'] ?: 0; ?> reviews)</span>
+                    </div>
+                    
+                    <div class="product-price">
+                        <span class="price-current">$<?php echo number_format($product['price'], 2); ?></span>
+                    </div>
+                    
+                    <div class="product-variants">
+                        <span class="variant-color" style="background: #800000;" title="Guinda"></span>
+                        <span class="variant-color" style="background: #D4AF37;" title="Dorado"></span>
+                        <span class="variant-color" style="background: #2C3E50;" title="Azul Marino"></span>
+                    </div>
+                </div>
+            </div>
+            <?php endforeach; ?>
+            
+            <?php if (empty($newProducts)): ?>
+            <!-- Productos de ejemplo si no hay datos -->
+            <?php for($i = 1; $i <= 3; $i++): ?>
             <div class="product-card">
                 <div class="product-badges">
                     <span class="badge-new">NUEVO</span>
@@ -454,10 +598,10 @@ $pageCSS = [];
                     <div class="product-rating">
                         <div class="stars">
                             <?php for($j = 1; $j <= 5; $j++): ?>
-                            <span class="star <?php echo $j <= 5 ? 'filled' : ''; ?>">★</span>
+                            <span class="star filled">★</span>
                             <?php endfor; ?>
                         </div>
-                        <span class="rating-count">(<?php echo 8 + $i; ?> reviews)</span>
+                        <span class="rating-count">(0 reviews)</span>
                     </div>
                     
                     <div class="product-price">
@@ -472,6 +616,7 @@ $pageCSS = [];
                 </div>
             </div>
             <?php endfor; ?>
+            <?php endif; ?>
         </div>
     </div>
 </section>
@@ -487,16 +632,17 @@ $pageCSS = [];
         </div>
         
         <div class="products-grid">
-            <?php for($i = 1; $i <= 12; $i++): ?>
+            <?php foreach ($allProductsDisplay as $product): ?>
             <div class="product-card">
-                <?php if($i % 3 == 0): ?>
+                <?php if (!empty($product['discount_percent'])): ?>
                 <div class="product-badges">
-                    <span class="badge-discount">-<?php echo 15 + ($i * 5); ?>%</span>
+                    <span class="badge-discount">-<?php echo $product['discount_percent']; ?>%</span>
                 </div>
                 <?php endif; ?>
                 
                 <div class="product-image">
-                    <img src="https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=300&h=300&fit=crop" alt="Producto <?php echo $i; ?>" loading="lazy">
+                    <img src="<?php echo htmlspecialchars($product['image_url'] ?: 'https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=300&h=300&fit=crop'); ?>" 
+                         alt="<?php echo htmlspecialchars($product['name']); ?>" loading="lazy">
                     <div class="product-overlay">
                         <button class="btn-add-cart">Añadir</button>
                         <button class="btn-favorite" aria-label="Agregar a favoritos">
@@ -508,21 +654,24 @@ $pageCSS = [];
                 </div>
                 
                 <div class="product-info">
-                    <h3 class="product-name">Producto de Moda <?php echo $i; ?></h3>
+                    <h3 class="product-name"><?php echo htmlspecialchars($product['name']); ?></h3>
                     
                     <div class="product-rating">
                         <div class="stars">
-                            <?php for($j = 1; $j <= 5; $j++): ?>
-                            <span class="star <?php echo $j <= 4 ? 'filled' : ''; ?>">★</span>
+                            <?php 
+                            $rating = $product['rating'] ?: 4; // Default 4 stars
+                            for($j = 1; $j <= 5; $j++): 
+                            ?>
+                            <span class="star <?php echo $j <= $rating ? 'filled' : ''; ?>">★</span>
                             <?php endfor; ?>
                         </div>
-                        <span class="rating-count">(<?php echo 10 + $i; ?> reviews)</span>
+                        <span class="rating-count">(<?php echo $product['reviews_count'] ?: 0; ?> reviews)</span>
                     </div>
                     
                     <div class="product-price">
-                        <span class="price-current">$<?php echo 40 + ($i * 6); ?></span>
-                        <?php if($i % 3 == 0): ?>
-                        <span class="price-original">$<?php echo 55 + ($i * 6); ?></span>
+                        <span class="price-current">$<?php echo number_format($product['price'], 2); ?></span>
+                        <?php if (!empty($product['original_price']) && $product['original_price'] > $product['price']): ?>
+                        <span class="price-original">$<?php echo number_format($product['original_price'], 2); ?></span>
                         <?php endif; ?>
                     </div>
                     
@@ -533,7 +682,15 @@ $pageCSS = [];
                     </div>
                 </div>
             </div>
-            <?php endfor; ?>
+            <?php endforeach; ?>
+            
+            <?php if (empty($allProductsDisplay)): ?>
+            <!-- Mensaje si no hay productos -->
+            <div style="grid-column: 1 / -1; text-align: center; padding: 60px 20px;">
+                <h3 style="color: #666; margin-bottom: 10px;">No hay productos disponibles</h3>
+                <p style="color: #999;">Los productos aparecerán aquí una vez que sean agregados desde el panel de administración.</p>
+            </div>
+            <?php endif; ?>
         </div>
         
         <div class="section-footer">
@@ -662,10 +819,9 @@ $pageCSS = [];
     
     // Countdown Timer
     function updateCountdown() {
-        // Fecha objetivo (ejemplo: 15 días desde ahora)
-        const targetDate = new Date();
-        targetDate.setDate(targetDate.getDate() + 15);
-        targetDate.setHours(23, 59, 59, 999);
+        <?php if ($activePromotion && $activePromotion['show_countdown']): ?>
+        // Fecha objetivo desde la base de datos
+        const targetDate = new Date('<?php echo $activePromotion['end_date']; ?>');
         
         const now = new Date().getTime();
         const distance = targetDate.getTime() - now;
@@ -676,14 +832,23 @@ $pageCSS = [];
             const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
             const seconds = Math.floor((distance % (1000 * 60)) / 1000);
             
-            document.getElementById('days').textContent = days.toString().padStart(2, '0');
-            document.getElementById('hours').textContent = hours.toString().padStart(2, '0');
-            document.getElementById('minutes').textContent = minutes.toString().padStart(2, '0');
-            document.getElementById('seconds').textContent = seconds.toString().padStart(2, '0');
+            const daysEl = document.getElementById('days');
+            const hoursEl = document.getElementById('hours');
+            const minutesEl = document.getElementById('minutes');
+            const secondsEl = document.getElementById('seconds');
+            
+            if (daysEl) daysEl.textContent = days.toString().padStart(2, '0');
+            if (hoursEl) hoursEl.textContent = hours.toString().padStart(2, '0');
+            if (minutesEl) minutesEl.textContent = minutes.toString().padStart(2, '0');
+            if (secondsEl) secondsEl.textContent = seconds.toString().padStart(2, '0');
         } else {
             // Countdown terminado
-            document.getElementById('countdownTimer').innerHTML = '<span style="color: #D4AF37;">¡Oferta Terminada!</span>';
+            const timerEl = document.getElementById('countdownTimer');
+            if (timerEl) {
+                timerEl.innerHTML = '<span style="color: #D4AF37;">¡Oferta Terminada!</span>';
+            }
         }
+        <?php endif; ?>
     }
     
     // Inicializar countdown
