@@ -66,7 +66,7 @@
             <!-- Footer Bottom -->
             <div class="footer-bottom">
                 <p>&copy; <?php echo date('Y'); ?> <?php echo APP_NAME; ?>. Todos los derechos reservados.</p>
-                <a href="/login.php" class="admin-link">Admin</a>
+                <a href="<?php echo APP_URL; ?>/login.php" class="admin-link">Admin</a>
             </div>
         </div>
     </footer>
