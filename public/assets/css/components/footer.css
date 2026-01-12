@@ -102,6 +102,28 @@
     color: var(--accent-light);
 }
 
+.footer-store-box {
+    background: var(--primary-color);
+    color: var(--text-white);
+    padding: var(--space-lg);
+    border-radius: var(--radius-lg);
+    text-align: center;
+}
+
+.footer-store-box h3 {
+    color: var(--text-white);
+    margin-bottom: var(--space-sm);
+}
+
+.footer-store-box p {
+    color: var(--text-white);
+    margin-bottom: var(--space-xs);
+}
+
+.footer-store-box p:last-child {
+    margin-bottom: 0;
+}
+
 /* Responsive */
 @media (max-width: 768px) {
     .footer-content {
