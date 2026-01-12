@@ -1,0 +1,298 @@
+/**
+ * ===================================================================
+ * HEADER.CSS - Header 2betshop
+ * ===================================================================
+ */
+
+.site-header {
+    background: var(--bg-white);
+    box-shadow: var(--shadow-sm);
+    position: sticky;
+    top: 0;
+    z-index: var(--z-sticky);
+}
+
+.header-main {
+    padding: var(--space-md) 0;
+}
+
+.header-main .container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-lg);
+}
+
+/* Logo */
+.logo {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    flex-shrink: 0;
+}
+
+.logo-text {
+    font-size: var(--text-2xl);
+    font-weight: var(--font-bold);
+    letter-spacing: -0.5px;
+}
+
+.logo-text .brand-primary {
+    color: var(--primary-color);
+}
+
+.logo-text .brand-accent {
+    color: var(--accent-color);
+}
+
+/* Search Bar */
+.search-container {
+    flex: 1;
+    max-width: 600px;
+    margin: 0 var(--space-xl);
+}
+
+.search-form {
+    display: flex;
+    align-items: center;
+    border: 2px solid var(--primary-color);
+    border-radius: var(--radius-full);
+    overflow: hidden;
+    background: var(--bg-white);
+}
+
+.search-input {
+    flex: 1;
+    border: none;
+    padding: var(--space-sm) var(--space-lg);
+    font-size: var(--text-base);
+    outline: none;
+}
+
+.search-input::placeholder {
+    color: var(--text-light);
+}
+
+.search-btn {
+    background: var(--primary-color);
+    border: none;
+    padding: var(--space-sm) var(--space-md);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background var(--transition-fast);
+}
+
+.search-btn:hover {
+    background: var(--primary-dark);
+}
+
+.search-btn svg {
+    width: 24px;
+    height: 24px;
+    color: var(--text-white);
+}
+
+/* Header Actions */
+.header-actions {
+    display: flex;
+    align-items: center;
+    gap: var(--space-md);
+}
+
+.cart-btn {
+    position: relative;
+    background: transparent;
+    border: none;
+    padding: var(--space-sm);
+    cursor: pointer;
+    color: var(--text-dark);
+    transition: color var(--transition-fast);
+}
+
+.cart-btn:hover {
+    color: var(--primary-color);
+}
+
+.cart-btn svg {
+    width: 28px;
+    height: 28px;
+}
+
+.cart-badge {
+    position: absolute;
+    top: 0;
+    right: 0;
+    background: var(--primary-color);
+    color: var(--text-white);
+    font-size: 11px;
+    font-weight: var(--font-bold);
+    min-width: 18px;
+    height: 18px;
+    border-radius: var(--radius-full);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Navigation */
+.main-nav {
+    background: var(--bg-white);
+    border-top: 1px solid var(--bg-gray);
+}
+
+.main-nav .container {
+    display: flex;
+    justify-content: center;
+}
+
+.main-nav ul {
+    display: flex;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    gap: var(--space-xs);
+}
+
+.main-nav li a {
+    display: block;
+    padding: var(--space-md) var(--space-lg);
+    color: var(--text-dark);
+    text-decoration: none;
+    font-size: var(--text-sm);
+    font-weight: var(--font-medium);
+    transition: color var(--transition-fast), background var(--transition-fast);
+}
+
+.main-nav li a:hover,
+.main-nav li a.active {
+    color: var(--primary-color);
+}
+
+/* Mobile Menu Button */
+.mobile-menu-btn {
+    display: none;
+    background: transparent;
+    border: none;
+    padding: var(--space-sm);
+    cursor: pointer;
+    color: var(--text-dark);
+}
+
+.mobile-menu-btn svg {
+    width: 28px;
+    height: 28px;
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+    .search-container {
+        max-width: 400px;
+        margin: 0 var(--space-md);
+    }
+    
+    .main-nav li a {
+        padding: var(--space-sm) var(--space-md);
+    }
+}
+
+@media (max-width: 768px) {
+    .search-container {
+        display: none;
+    }
+    
+    .main-nav {
+        display: none;
+    }
+    
+    .mobile-menu-btn {
+        display: block;
+    }
+    
+    .header-actions {
+        gap: var(--space-sm);
+    }
+}
+
+/* Mobile Menu Overlay */
+.mobile-menu {
+    position: fixed;
+    top: 0;
+    right: -100%;
+    width: 300px;
+    height: 100vh;
+    background: var(--bg-white);
+    box-shadow: var(--shadow-xl);
+    z-index: var(--z-modal);
+    transition: right var(--transition-base);
+    overflow-y: auto;
+}
+
+.mobile-menu.active {
+    right: 0;
+}
+
+.mobile-menu-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--space-lg);
+    border-bottom: 1px solid var(--bg-gray);
+}
+
+.mobile-menu-close {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: var(--space-xs);
+}
+
+.mobile-menu-nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.mobile-menu-nav li a {
+    display: block;
+    padding: var(--space-md) var(--space-lg);
+    color: var(--text-dark);
+    text-decoration: none;
+    border-bottom: 1px solid var(--bg-gray);
+    transition: background var(--transition-fast);
+}
+
+.mobile-menu-nav li a:hover {
+    background: var(--bg-light);
+    color: var(--primary-color);
+}
+
+/* Mobile Menu Backdrop */
+.mobile-menu-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: calc(var(--z-modal) - 1);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity var(--transition-base), visibility var(--transition-base);
+}
+
+.mobile-menu-backdrop.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* Mobile Search */
+.mobile-search {
+    padding: var(--space-md) var(--space-lg);
+    border-bottom: 1px solid var(--bg-gray);
+}
+
+.mobile-search .search-form {
+    border-color: var(--bg-gray);
+}

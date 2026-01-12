@@ -1,0 +1,196 @@
+/** PRODUCT-DETAIL.CSS - Detalle de producto */
+.product-detail {
+    padding: var(--space-4xl) 0;
+}
+
+.product-detail-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-3xl);
+}
+
+.product-gallery {
+    position: sticky;
+    top: calc(80px + var(--space-lg));
+}
+
+.product-main-image {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+    border-radius: var(--radius-lg);
+    margin-bottom: var(--space-md);
+}
+
+/* Dynamic Fields Styling */
+.dynamic-fields-container {
+    margin-bottom: var(--space-xl);
+}
+
+.field-group {
+    margin-bottom: var(--space-2xl);
+    padding: var(--space-xl);
+    background: var(--bg-light);
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--bg-gray);
+}
+
+.field-group:last-child {
+    margin-bottom: 0;
+}
+
+.field-group-title {
+    font-size: var(--text-lg);
+    font-weight: var(--font-bold);
+    color: var(--text-dark);
+    margin-bottom: var(--space-lg);
+    padding-bottom: var(--space-sm);
+    border-bottom: 2px solid var(--primary-color);
+    display: flex;
+    align-items: center;
+}
+
+.field-group-title::before {
+    content: '';
+    width: 4px;
+    height: 20px;
+    background: var(--primary-color);
+    margin-right: var(--space-md);
+    border-radius: var(--radius-sm);
+}
+
+.field-group-content {
+    display: grid;
+    gap: var(--space-lg);
+}
+
+.dynamic-field {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-sm);
+}
+
+.field-label {
+    font-weight: var(--font-semibold);
+    color: var(--text-dark);
+    font-size: var(--text-sm);
+    text-transform: capitalize;
+}
+
+.field-value {
+    color: var(--text-gray);
+    line-height: var(--leading-relaxed);
+    padding: var(--space-sm) 0;
+}
+
+.field-number {
+    font-weight: var(--font-medium);
+    color: var(--primary-color);
+}
+
+.field-text-block {
+    color: var(--text-gray);
+    line-height: var(--leading-relaxed);
+    padding: var(--space-md);
+    background: var(--bg-white);
+    border-radius: var(--radius-md);
+    border-left: 3px solid var(--primary-color);
+}
+
+/* Option Buttons Styling */
+.option-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-sm);
+    margin: var(--space-sm) 0;
+}
+
+.option-btn {
+    padding: var(--space-sm) var(--space-lg);
+    border: 2px solid var(--bg-gray);
+    border-radius: var(--radius-md);
+    background-color: var(--bg-white);
+    color: var(--text-dark);
+    cursor: pointer;
+    transition: all var(--transition-base) var(--transition-ease);
+    font-size: var(--text-sm);
+    font-weight: var(--font-medium);
+    min-width: 60px;
+    text-align: center;
+}
+
+.option-btn:hover {
+    border-color: var(--primary-color);
+    background-color: var(--primary-light);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.option-btn.selected {
+    border-color: var(--primary-color);
+    background-color: var(--primary-color);
+    color: var(--bg-white);
+    box-shadow: 0 4px 12px rgba(var(--primary-rgb), 0.3);
+}
+
+.option-btn:active {
+    transform: translateY(0);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .product-detail-grid {
+        grid-template-columns: 1fr;
+        gap: var(--space-xl);
+    }
+    
+    .product-gallery {
+        position: static;
+    }
+    
+    .field-group {
+        padding: var(--space-lg);
+    }
+    
+    .field-group-content {
+        gap: var(--space-md);
+    }
+    
+    .option-buttons {
+        gap: var(--space-xs);
+    }
+    
+    .option-btn {
+        padding: var(--space-xs) var(--space-md);
+        font-size: var(--text-xs);
+        min-width: 50px;
+    }
+}
+
+/* Special field type styling */
+.dynamic-field[data-field-type="warranty"] .field-value,
+.dynamic-field[data-field-type="stock"] .field-value {
+    font-weight: var(--font-bold);
+    color: var(--success-color);
+}
+
+.dynamic-field[data-field-type="expiry_date"] .field-value {
+    color: var(--warning-color);
+    font-weight: var(--font-medium);
+}
+
+/* Animation for field groups */
+.field-group {
+    animation: fadeInUp 0.6s ease-out;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

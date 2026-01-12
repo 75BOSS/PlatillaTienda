@@ -1,0 +1,76 @@
+/**
+ * ===================================================================
+ * HOME.CSS - Página de inicio específica
+ * ===================================================================
+ */
+
+/* Estilos específicos para la página de inicio */
+.site-main {
+    padding-top: 0;
+}
+
+/* Ajustes específicos para el hero en home */
+.hero {
+    margin-top: 0;
+}
+
+/* Espaciado entre secciones */
+.hero + .features {
+    margin-top: 0;
+}
+
+.features + .categories {
+    margin-top: 0;
+}
+
+.categories + .products {
+    margin-top: 0;
+}
+
+.products + .cta-section {
+    margin-top: 0;
+}
+
+/* Animaciones de scroll para elementos */
+@media (prefers-reduced-motion: no-preference) {
+    .section-header,
+    .feature-item,
+    .category-card,
+    .product-card {
+        opacity: 0;
+        transform: translateY(30px);
+        transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+    }
+    
+    .section-header.animate-in,
+    .feature-item.animate-in,
+    .category-card.animate-in,
+    .product-card.animate-in {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Mejoras de performance */
+.hero-background img,
+.cta-background img,
+.product-image,
+.category-card img {
+    will-change: transform;
+}
+
+/* Estados de carga */
+.loading-skeleton {
+    background: linear-gradient(90deg, var(--bg-light) 25%, var(--bg-gray) 50%, var(--bg-light) 75%);
+    background-size: 200% 100%;
+    animation: loading 1.5s infinite;
+}
+
+@keyframes loading {
+    0% {
+        background-position: 200% 0;
+    }
+    100% {
+        background-position: -200% 0;
+    }
+}

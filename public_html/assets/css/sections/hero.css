@@ -1,0 +1,162 @@
+/**
+ * ===================================================================
+ * HERO.CSS - Hero Section 2betshop
+ * ===================================================================
+ */
+
+.hero {
+    position: relative;
+    min-height: 550px;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+}
+
+.hero-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+}
+
+.hero-background img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: sepia(20%) saturate(80%);
+}
+
+.hero-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to right, rgba(196, 30, 58, 0.85) 0%, rgba(196, 30, 58, 0.6) 50%, rgba(196, 30, 58, 0.3) 100%);
+}
+
+.hero .container {
+    position: relative;
+    z-index: 1;
+}
+
+.hero-content {
+    max-width: 550px;
+    padding: var(--space-3xl) 0;
+}
+
+.hero-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-sm);
+    background: rgba(255, 255, 255, 0.95);
+    color: var(--accent-color);
+    padding: var(--space-sm) var(--space-md);
+    border-radius: var(--radius-full);
+    font-size: var(--text-sm);
+    font-weight: var(--font-medium);
+    margin-bottom: var(--space-lg);
+}
+
+.hero-title {
+    font-family: var(--font-display);
+    font-size: var(--text-5xl);
+    font-weight: var(--font-bold);
+    color: var(--text-white);
+    line-height: var(--leading-tight);
+    margin-bottom: var(--space-lg);
+}
+
+.hero-highlight {
+    color: var(--accent-color);
+    font-style: italic;
+}
+
+.hero-text {
+    color: rgba(255, 255, 255, 0.9);
+    font-size: var(--text-lg);
+    line-height: var(--leading-relaxed);
+    margin-bottom: var(--space-xl);
+}
+
+.hero-actions {
+    display: flex;
+    gap: var(--space-md);
+    flex-wrap: wrap;
+}
+
+.hero .btn {
+    padding: var(--space-md) var(--space-xl);
+    border-radius: var(--radius-full);
+    font-weight: var(--font-semibold);
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-sm);
+    transition: all var(--transition-fast);
+}
+
+.hero .btn-primary {
+    background: var(--primary-color);
+    color: var(--text-white);
+}
+
+.hero .btn-primary:hover {
+    background: var(--primary-dark);
+    transform: translateY(-2px);
+}
+
+.hero .btn-secondary {
+    background: transparent;
+    color: var(--text-white);
+    border: 2px solid rgba(255, 255, 255, 0.5);
+}
+
+.hero .btn-secondary:hover {
+    border-color: var(--text-white);
+    background: rgba(255, 255, 255, 0.1);
+}
+
+/* Animaciones */
+.animate-fade-in {
+    opacity: 0;
+    transform: translateY(30px);
+    animation: fadeInUp 0.8s ease-out forwards;
+}
+
+.stagger-1 { animation-delay: 0.2s; }
+.stagger-2 { animation-delay: 0.4s; }
+.stagger-3 { animation-delay: 0.6s; }
+
+@keyframes fadeInUp {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .hero {
+        min-height: 450px;
+    }
+    
+    .hero-title {
+        font-size: var(--text-4xl);
+    }
+    
+    .hero-text {
+        font-size: var(--text-base);
+    }
+    
+    .hero-actions {
+        flex-direction: column;
+    }
+    
+    .hero .btn {
+        width: 100%;
+        justify-content: center;
+    }
+}

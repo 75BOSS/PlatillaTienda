@@ -1,0 +1,255 @@
+/**
+ * ===================================================================
+ * SUPABASE UPLOADER CSS
+ * ===================================================================
+ * Estilos para el componente de subida de imágenes
+ */
+
+/* Contenedor principal */
+.image-uploader {
+    width: 100%;
+}
+
+/* Área de upload */
+.upload-area {
+    position: relative;
+    border: 2px dashed #e2e8f0;
+    border-radius: 12px;
+    background: #f8fafc;
+    min-height: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    overflow: hidden;
+}
+
+.upload-area:hover {
+    border-color: #12709b;
+    background: #f1f5f9;
+}
+
+.upload-area.dragover {
+    border-color: #12709b;
+    background: #e0f2fe;
+    border-style: solid;
+}
+
+/* Input file oculto */
+.file-input {
+    position: absolute;
+    width: 0;
+    height: 0;
+    opacity: 0;
+    pointer-events: none;
+}
+
+/* Placeholder (sin imagen) */
+.upload-placeholder {
+    text-align: center;
+    padding: 2rem;
+}
+
+.upload-placeholder.hidden {
+    display: none;
+}
+
+.upload-icon {
+    color: #94a3b8;
+    margin-bottom: 1rem;
+}
+
+.upload-icon svg {
+    width: 48px;
+    height: 48px;
+}
+
+.upload-text {
+    color: #64748b;
+    font-size: 0.95rem;
+    margin-bottom: 0.5rem;
+}
+
+.upload-link {
+    color: #12709b;
+    font-weight: 600;
+    text-decoration: underline;
+}
+
+.upload-hint {
+    color: #94a3b8;
+    font-size: 0.85rem;
+    margin: 0;
+}
+
+/* Preview (con imagen) */
+.upload-preview {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    min-height: 200px;
+}
+
+.upload-preview.hidden {
+    display: none;
+}
+
+.upload-preview img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    display: block;
+}
+
+.preview-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.upload-preview:hover .preview-overlay {
+    opacity: 1;
+}
+
+.preview-overlay button {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.2s ease, background 0.2s ease;
+}
+
+.preview-overlay button:hover {
+    transform: scale(1.1);
+}
+
+.btn-change {
+    background: #12709b;
+    color: white;
+}
+
+.btn-change:hover {
+    background: #0d5573;
+}
+
+.btn-delete {
+    background: #ef4444;
+    color: white;
+}
+
+.btn-delete:hover {
+    background: #dc2626;
+}
+
+/* Progreso */
+.upload-progress {
+    text-align: center;
+    padding: 2rem;
+    width: 100%;
+}
+
+.upload-progress.hidden {
+    display: none;
+}
+
+.progress-bar {
+    width: 100%;
+    max-width: 300px;
+    height: 8px;
+    background: #e2e8f0;
+    border-radius: 4px;
+    overflow: hidden;
+    margin: 0 auto 1rem;
+}
+
+.progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #12709b, #1a8dbd);
+    border-radius: 4px;
+    width: 0%;
+    transition: width 0.3s ease;
+}
+
+.progress-text {
+    color: #64748b;
+    font-size: 0.9rem;
+    margin: 0;
+}
+
+/* Error */
+.upload-error {
+    margin-top: 0.75rem;
+    padding: 0.75rem 1rem;
+    background: #fee2e2;
+    border: 1px solid #fecaca;
+    border-radius: 8px;
+    color: #dc2626;
+    font-size: 0.9rem;
+}
+
+.upload-error.hidden {
+    display: none;
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+    .upload-area {
+        min-height: 160px;
+    }
+    
+    .upload-preview img {
+        height: 160px;
+    }
+    
+    .upload-icon svg {
+        width: 36px;
+        height: 36px;
+    }
+    
+    .upload-text {
+        font-size: 0.9rem;
+    }
+}
+
+/* ===================================================================
+   VARIANTE: Vista compacta para grids
+   =================================================================== */
+
+.image-uploader.compact .upload-area {
+    min-height: 150px;
+}
+
+.image-uploader.compact .upload-preview img {
+    height: 150px;
+}
+
+.image-uploader.compact .upload-placeholder {
+    padding: 1rem;
+}
+
+.image-uploader.compact .upload-icon svg {
+    width: 32px;
+    height: 32px;
+}
+
+.image-uploader.compact .upload-text {
+    font-size: 0.85rem;
+}
+
+.image-uploader.compact .upload-hint {
+    font-size: 0.75rem;
+}

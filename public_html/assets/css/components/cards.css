@@ -1,0 +1,69 @@
+/**
+ * ===================================================================
+ * CARDS.CSS - Estilos de tarjetas
+ * ===================================================================
+ */
+
+/* Card básica */
+.card {
+    background: var(--bg-white);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-card);
+    overflow: hidden;
+    transition: transform var(--transition-base), box-shadow var(--transition-base);
+}
+
+.card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-card-hover);
+}
+
+/* Card header */
+.card-header {
+    padding: var(--space-lg);
+    border-bottom: 1px solid var(--bg-gray);
+}
+
+.card-title {
+    font-size: var(--text-lg);
+    font-weight: var(--font-semibold);
+    margin: 0;
+    color: var(--text-dark);
+}
+
+/* Card body */
+.card-body {
+    padding: var(--space-lg);
+}
+
+/* Card footer */
+.card-footer {
+    padding: var(--space-lg);
+    border-top: 1px solid var(--bg-gray);
+    background: var(--bg-light);
+}
+
+/* Card image */
+.card-image {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+/* Card compacta */
+.card-compact .card-header,
+.card-compact .card-body,
+.card-compact .card-footer {
+    padding: var(--space-md);
+}
+
+/* Card sin sombra */
+.card-flat {
+    box-shadow: none;
+    border: 1px solid var(--bg-gray);
+}
+
+/* Card con borde */
+.card-bordered {
+    border: 2px solid var(--primary-color);
+}

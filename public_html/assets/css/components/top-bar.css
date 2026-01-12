@@ -1,0 +1,47 @@
+/**
+ * ===================================================================
+ * TOP-BAR.CSS - Barra Superior
+ * ===================================================================
+ */
+
+.top-bar {
+    background-color: var(--primary-color);
+    color: var(--text-white);
+    padding: var(--space-sm) 0;
+    font-size: var(--text-sm);
+}
+
+.top-bar .container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: var(--space-xl);
+}
+
+.top-bar-item {
+    display: flex;
+    align-items: center;
+    gap: var(--space-xs);
+}
+
+.top-bar-item .icon {
+    color: var(--accent-color);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .top-bar .container {
+        gap: var(--space-md);
+        font-size: var(--text-xs);
+    }
+    
+    .top-bar-item:nth-child(3) {
+        display: none;
+    }
+}
+
+@media (max-width: 480px) {
+    .top-bar-item:nth-child(2) {
+        display: none;
+    }
+}
