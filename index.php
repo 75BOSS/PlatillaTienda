@@ -19,18 +19,24 @@ $pageCSS = [];
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
     
     <!-- CSS BASE -->
-    <link rel="stylesheet" href="<?php echo APP_URL; ?>/assets/css/base/reset.css">
-    <link rel="stylesheet" href="<?php echo APP_URL; ?>/assets/css/base/variables.css">
-    <link rel="stylesheet" href="<?php echo APP_URL; ?>/assets/css/base/layout.css">
-    <link rel="stylesheet" href="<?php echo APP_URL; ?>/assets/css/base/typography.css">
+    <link rel="stylesheet" href="./public/assets/css/base/reset.css">
+    <link rel="stylesheet" href="./public/assets/css/base/variables.css">
+    <link rel="stylesheet" href="./public/assets/css/base/layout.css">
+    <link rel="stylesheet" href="./public/assets/css/base/typography.css">
     
     <!-- CSS COMPONENTS -->
-    <link rel="stylesheet" href="<?php echo APP_URL; ?>/assets/css/components/top-bar.css">
-    <link rel="stylesheet" href="<?php echo APP_URL; ?>/assets/css/components/header.css">
-    <link rel="stylesheet" href="<?php echo APP_URL; ?>/assets/css/components/footer.css">
-    <link rel="stylesheet" href="<?php echo APP_URL; ?>/assets/css/components/buttons.css">
-    <link rel="stylesheet" href="<?php echo APP_URL; ?>/assets/css/components/cards.css">
-    <link rel="stylesheet" href="<?php echo APP_URL; ?>/assets/css/components/whatsapp-float.css">
+    <link rel="stylesheet" href="./public/assets/css/components/top-bar.css">
+    <link rel="stylesheet" href="./public/assets/css/components/header.css">
+    <link rel="stylesheet" href="./public/assets/css/components/footer.css">
+    <link rel="stylesheet" href="./public/assets/css/components/buttons.css">
+    <link rel="stylesheet" href="./public/assets/css/components/cards.css">
+    <link rel="stylesheet" href="./public/assets/css/components/whatsapp-float.css">
+    
+    <!-- CSS PAGES -->
+    <link rel="stylesheet" href="./public/assets/css/pages/home.css">
+    
+    <!-- FORCE RED THEME -->
+    <link rel="stylesheet" href="./public/assets/css/force-red-theme.css">
 </head>
 <body>
     <!-- Top Bar -->
@@ -290,7 +296,7 @@ $pageCSS = [];
        aria-label="Contactar por WhatsApp">📱</a>
     
     <!-- JavaScript -->
-    <script src="<?php echo APP_URL; ?>/assets/js/main.js"></script>
+    <script src="./public/assets/js/main.js"></script>
     
     <script>
     // Mobile Menu Toggle
