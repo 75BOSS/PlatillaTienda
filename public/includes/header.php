@@ -68,7 +68,7 @@
                 
                 <!-- Search -->
                 <div class="search-container">
-                    <form class="search-form" action="<?php echo APP_URL; ?>/catalogo.php" method="GET">
+                    <form class="search-form" action="/catalogo.php" method="GET">
                         <input type="text" name="q" class="search-input" placeholder="Buscar productos...">
                         <button type="submit" class="search-btn">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -105,15 +105,15 @@
         <nav class="main-nav">
             <div class="container">
                 <ul>
-                    <li><a href="<?php echo APP_URL; ?>" class="<?php echo (!isset($currentPage) || $currentPage == 'inicio') ? 'active' : ''; ?>">Inicio</a></li>
-                    <li><a href="<?php echo APP_URL; ?>/categoria.php?slug=ropa-mujer">Ropa de Mujer</a></li>
-                    <li><a href="<?php echo APP_URL; ?>/categoria.php?slug=ropa-hombre">Ropa de Hombre</a></li>
-                    <li><a href="<?php echo APP_URL; ?>/categoria.php?slug=accesorios">Accesorios</a></li>
-                    <li><a href="<?php echo APP_URL; ?>/categoria.php?slug=calzado">Calzado</a></li>
-                    <li><a href="<?php echo APP_URL; ?>/categoria.php?slug=hogar">Hogar</a></li>
-                    <li><a href="<?php echo APP_URL; ?>/categoria.php?slug=electronica">Electrónica</a></li>
-                    <li><a href="<?php echo APP_URL; ?>/categoria.php?slug=belleza">Belleza</a></li>
-                    <li><a href="<?php echo APP_URL; ?>/categoria.php?slug=ninos">Niños</a></li>
+                    <li><a href="/" class="<?php echo (!isset($currentPage) || $currentPage == 'inicio') ? 'active' : ''; ?>">Inicio</a></li>
+                    <li><a href="/categoria.php?slug=ropa-mujer">Ropa de Mujer</a></li>
+                    <li><a href="/categoria.php?slug=ropa-hombre">Ropa de Hombre</a></li>
+                    <li><a href="/categoria.php?slug=accesorios">Accesorios</a></li>
+                    <li><a href="/categoria.php?slug=calzado">Calzado</a></li>
+                    <li><a href="/categoria.php?slug=hogar">Hogar</a></li>
+                    <li><a href="/categoria.php?slug=electronica">Electrónica</a></li>
+                    <li><a href="/categoria.php?slug=belleza">Belleza</a></li>
+                    <li><a href="/categoria.php?slug=ninos">Niños</a></li>
                 </ul>
             </div>
         </nav>
@@ -132,7 +132,7 @@
             </button>
         </div>
         <div class="mobile-search">
-            <form class="search-form" action="<?php echo APP_URL; ?>/catalogo.php" method="GET">
+            <form class="search-form" action="/catalogo.php" method="GET">
                 <input type="text" name="q" class="search-input" placeholder="Buscar productos...">
                 <button type="submit" class="search-btn">
                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -144,16 +144,16 @@
         </div>
         <nav class="mobile-menu-nav">
             <ul>
-                <li><a href="<?php echo APP_URL; ?>">Inicio</a></li>
-                <li><a href="<?php echo APP_URL; ?>/categoria.php?slug=ropa-mujer">Ropa de Mujer</a></li>
-                <li><a href="<?php echo APP_URL; ?>/categoria.php?slug=ropa-hombre">Ropa de Hombre</a></li>
-                <li><a href="<?php echo APP_URL; ?>/categoria.php?slug=accesorios">Accesorios</a></li>
-                <li><a href="<?php echo APP_URL; ?>/categoria.php?slug=calzado">Calzado</a></li>
-                <li><a href="<?php echo APP_URL; ?>/categoria.php?slug=hogar">Hogar</a></li>
-                <li><a href="<?php echo APP_URL; ?>/categoria.php?slug=electronica">Electrónica</a></li>
-                <li><a href="<?php echo APP_URL; ?>/categoria.php?slug=belleza">Belleza</a></li>
-                <li><a href="<?php echo APP_URL; ?>/categoria.php?slug=ninos">Niños</a></li>
-                <li><a href="<?php echo APP_URL; ?>/contacto.php">Contacto</a></li>
+                <li><a href="/">Inicio</a></li>
+                <li><a href="/categoria.php?slug=ropa-mujer">Ropa de Mujer</a></li>
+                <li><a href="/categoria.php?slug=ropa-hombre">Ropa de Hombre</a></li>
+                <li><a href="/categoria.php?slug=accesorios">Accesorios</a></li>
+                <li><a href="/categoria.php?slug=calzado">Calzado</a></li>
+                <li><a href="/categoria.php?slug=hogar">Hogar</a></li>
+                <li><a href="/categoria.php?slug=electronica">Electrónica</a></li>
+                <li><a href="/categoria.php?slug=belleza">Belleza</a></li>
+                <li><a href="/categoria.php?slug=ninos">Niños</a></li>
+                <li><a href="/contacto.php">Contacto</a></li>
             </ul>
         </nav>
     </div>

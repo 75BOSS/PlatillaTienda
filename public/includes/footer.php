@@ -46,9 +46,9 @@
                 <div class="footer-section">
                     <h3>Enlaces</h3>
                     <ul>
-                        <li><a href="<?php echo APP_URL; ?>/index.php">Inicio</a></li>
-                        <li><a href="<?php echo APP_URL; ?>/catalogo.php">Catálogo</a></li>
-                        <li><a href="<?php echo APP_URL; ?>/contacto.php">Contacto</a></li>
+                        <li><a href="/index.php">Inicio</a></li>
+                        <li><a href="/catalogo.php">Catálogo</a></li>
+                        <li><a href="/contacto.php">Contacto</a></li>
                     </ul>
                 </div>
                 
@@ -66,7 +66,7 @@
             <!-- Footer Bottom -->
             <div class="footer-bottom">
                 <p>&copy; <?php echo date('Y'); ?> <?php echo APP_NAME; ?>. Todos los derechos reservados.</p>
-                <a href="<?php echo APP_URL; ?>/login.php" class="admin-link">Admin</a>
+                <a href="/login.php" class="admin-link">Admin</a>
             </div>
         </div>
     </footer>
