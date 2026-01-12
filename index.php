@@ -1,63 +1,80 @@
 <?php
 require_once __DIR__ . '/config/config.php';
-require_once __DIR__ . '/app/models/Product.php';
-require_once __DIR__ . '/app/models/Category.php';
-require_once __DIR__ . '/app/models/Promotion.php';
 
 $pageTitle = "Inicio";
 $currentPage = "inicio";
 $pageCSS = [];
 
-// Inicializar modelos
-$productModel = new Product();
-$categoryModel = new Category();
-$promotionModel = new Promotion();
+// Inicializar variables con valores por defecto
+$activePromotion = null;
+$featuredCategories = [];
+$bestSellers = [];
+$newProducts = [];
+$allProductsDisplay = [];
 
-// Obtener datos para el frontend
+// Intentar cargar datos de la base de datos con manejo de errores
 try {
-    // Obtener promoción activa
-    $activePromotion = $promotionModel->getActive();
+    // Verificar que los archivos de modelos existan antes de cargarlos
+    $modelsPath = __DIR__ . '/app/models/';
     
-    // Obtener categorías principales (máximo 6 para el grid)
-    $categories = $categoryModel->getAll(true);
-    $featuredCategories = array_slice($categories, 0, 6);
-    
-    // Obtener productos destacados (is_featured = 1)
-    $featuredProducts = $productModel->getAll(true);
-    $bestSellers = array_filter($featuredProducts, function($product) {
-        return $product['is_featured'] == 1;
-    });
-    $bestSellers = array_slice($bestSellers, 0, 8);
-    
-    // Obtener productos nuevos (is_new = 1)
-    $newProducts = array_filter($featuredProducts, function($product) {
-        return $product['is_new'] == 1;
-    });
-    $newProducts = array_slice($newProducts, 0, 6);
-    
-    // Si no hay productos marcados como nuevos, tomar los más recientes
-    if (empty($newProducts)) {
+    if (file_exists($modelsPath . 'Database.php') && 
+        file_exists($modelsPath . 'Product.php') && 
+        file_exists($modelsPath . 'Category.php') && 
+        file_exists($modelsPath . 'Promotion.php')) {
+        
+        // Cargar modelos
+        require_once $modelsPath . 'Product.php';
+        require_once $modelsPath . 'Category.php';
+        require_once $modelsPath . 'Promotion.php';
+        
+        // Inicializar modelos
+        $productModel = new Product();
+        $categoryModel = new Category();
+        $promotionModel = new Promotion();
+        
+        // Obtener datos para el frontend
+        // Obtener promoción activa
+        $activePromotion = $promotionModel->getActive();
+        
+        // Obtener categorías principales (máximo 6 para el grid)
+        $categories = $categoryModel->getAll(true);
+        if (is_array($categories)) {
+            $featuredCategories = array_slice($categories, 0, 6);
+        }
+        
+        // Obtener productos
         $allProducts = $productModel->getAll(true);
-        usort($allProducts, function($a, $b) {
-            return strtotime($b['created_at']) - strtotime($a['created_at']);
-        });
-        $newProducts = array_slice($allProducts, 0, 6);
+        if (is_array($allProducts)) {
+            // Productos para mostrar en la sección final
+            $allProductsDisplay = array_slice($allProducts, 0, 12);
+            
+            // Productos destacados (is_featured = 1)
+            $bestSellers = array_filter($allProducts, function($product) {
+                return isset($product['is_featured']) && $product['is_featured'] == 1;
+            });
+            $bestSellers = array_slice($bestSellers, 0, 8);
+            
+            // Productos nuevos (is_new = 1)
+            $newProducts = array_filter($allProducts, function($product) {
+                return isset($product['is_new']) && $product['is_new'] == 1;
+            });
+            
+            // Si no hay productos marcados como nuevos, tomar los más recientes
+            if (empty($newProducts)) {
+                usort($allProducts, function($a, $b) {
+                    return strtotime($b['created_at']) - strtotime($a['created_at']);
+                });
+                $newProducts = array_slice($allProducts, 0, 6);
+            } else {
+                $newProducts = array_slice($newProducts, 0, 6);
+            }
+        }
     }
     
-    // Obtener todos los productos para la sección final
-    $allProducts = $productModel->getAll(true);
-    $allProductsDisplay = array_slice($allProducts, 0, 12);
-    
 } catch (Exception $e) {
-    // En caso de error, usar arrays vacíos
-    $activePromotion = null;
-    $featuredCategories = [];
-    $bestSellers = [];
-    $newProducts = [];
-    $allProductsDisplay = [];
-    
+    // En caso de error, mantener valores por defecto
     // Log del error si está habilitado el debug
-    if (DEBUG_MODE) {
+    if (defined('DEBUG_MODE') && DEBUG_MODE) {
         error_log("Error en index.php: " . $e->getMessage());
     }
 }
@@ -353,7 +370,7 @@ try {
                 <div class="category-image" style="background-image: url('<?php echo htmlspecialchars($category['image_url'] ?: 'https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=400&h=400&fit=crop'); ?>');">
                     <div class="category-overlay">
                         <h3 class="category-name"><?php echo htmlspecialchars($category['name']); ?></h3>
-                        <span class="category-count"><?php echo $categoryModel->getProductCount($category['id']); ?> productos</span>
+                        <span class="category-count"><?php echo isset($categoryModel) ? $categoryModel->getProductCount($category['id']) : 0; ?> productos</span>
                     </div>
                 </div>
             </div>

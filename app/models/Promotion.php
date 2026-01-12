@@ -22,9 +22,7 @@ class Promotion {
                 ORDER BY id DESC 
                 LIMIT 1";
                 
-        $stmt = $this->db->prepare($sql);
-        $stmt->execute();
-        return $stmt->fetch(PDO::FETCH_ASSOC);
+        return $this->db->selectOne($sql);
     }
     
     /**
@@ -32,19 +30,15 @@ class Promotion {
      */
     public function getAll() {
         $sql = "SELECT * FROM promotions ORDER BY created_at DESC";
-        $stmt = $this->db->prepare($sql);
-        $stmt->execute();
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $this->db->select($sql);
     }
     
     /**
      * Obtener promoción por ID
      */
     public function getById($id) {
-        $sql = "SELECT * FROM promotions WHERE id = ?";
-        $stmt = $this->db->prepare($sql);
-        $stmt->execute([$id]);
-        return $stmt->fetch(PDO::FETCH_ASSOC);
+        $sql = "SELECT * FROM promotions WHERE id = :id";
+        return $this->db->selectOne($sql, [':id' => $id]);
     }
     
     /**
@@ -52,17 +46,16 @@ class Promotion {
      */
     public function create($data) {
         $sql = "INSERT INTO promotions (title, description, end_date, background_color, text_color, is_active, show_countdown) 
-                VALUES (?, ?, ?, ?, ?, ?, ?)";
+                VALUES (:title, :description, :end_date, :background_color, :text_color, :is_active, :show_countdown)";
                 
-        $stmt = $this->db->prepare($sql);
-        return $stmt->execute([
-            $data['title'],
-            $data['description'] ?? null,
-            $data['end_date'],
-            $data['background_color'] ?? '#e8172c',
-            $data['text_color'] ?? '#FFFFFF',
-            $data['is_active'] ?? 1,
-            $data['show_countdown'] ?? 1
+        return $this->db->insert($sql, [
+            ':title' => $data['title'],
+            ':description' => $data['description'] ?? null,
+            ':end_date' => $data['end_date'],
+            ':background_color' => $data['background_color'] ?? '#e8172c',
+            ':text_color' => $data['text_color'] ?? '#FFFFFF',
+            ':is_active' => $data['is_active'] ?? 1,
+            ':show_countdown' => $data['show_countdown'] ?? 1
         ]);
     }
     
@@ -71,25 +64,24 @@ class Promotion {
      */
     public function update($id, $data) {
         $sql = "UPDATE promotions SET 
-                title = ?, 
-                description = ?, 
-                end_date = ?, 
-                background_color = ?, 
-                text_color = ?, 
-                is_active = ?,
-                show_countdown = ?
-                WHERE id = ?";
+                title = :title, 
+                description = :description, 
+                end_date = :end_date, 
+                background_color = :background_color, 
+                text_color = :text_color, 
+                is_active = :is_active,
+                show_countdown = :show_countdown
+                WHERE id = :id";
                 
-        $stmt = $this->db->prepare($sql);
-        return $stmt->execute([
-            $data['title'],
-            $data['description'] ?? null,
-            $data['end_date'],
-            $data['background_color'] ?? '#e8172c',
-            $data['text_color'] ?? '#FFFFFF',
-            $data['is_active'] ?? 1,
-            $data['show_countdown'] ?? 1,
-            $id
+        return $this->db->execute($sql, [
+            ':title' => $data['title'],
+            ':description' => $data['description'] ?? null,
+            ':end_date' => $data['end_date'],
+            ':background_color' => $data['background_color'] ?? '#e8172c',
+            ':text_color' => $data['text_color'] ?? '#FFFFFF',
+            ':is_active' => $data['is_active'] ?? 1,
+            ':show_countdown' => $data['show_countdown'] ?? 1,
+            ':id' => $id
         ]);
     }
     
@@ -97,17 +89,15 @@ class Promotion {
      * Activar/Desactivar promoción
      */
     public function toggleActive($id) {
-        $sql = "UPDATE promotions SET is_active = NOT is_active WHERE id = ?";
-        $stmt = $this->db->prepare($sql);
-        return $stmt->execute([$id]);
+        $sql = "UPDATE promotions SET is_active = NOT is_active WHERE id = :id";
+        return $this->db->execute($sql, [':id' => $id]);
     }
     
     /**
      * Eliminar promoción
      */
     public function delete($id) {
-        $sql = "DELETE FROM promotions WHERE id = ?";
-        $stmt = $this->db->prepare($sql);
-        return $stmt->execute([$id]);
+        $sql = "DELETE FROM promotions WHERE id = :id";
+        return $this->db->execute($sql, [':id' => $id]);
     }
 }
