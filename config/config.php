@@ -6,7 +6,7 @@
 // RUTAS DEL SISTEMA
 define('ROOT_PATH', dirname(__DIR__));
 define('APP_URL', 'https://lightcyan-heron-166360.hostingersite.com');
-define('ADMIN_URL', APP_URL . '/admin');
+define('ADMIN_URL', APP_URL . '/public/admin');
 define('ADMIN_PATH', ROOT_PATH . '/public/admin');
 
 // INFORMACIÓN DE LA APLICACIÓN - 2BETSHOP
