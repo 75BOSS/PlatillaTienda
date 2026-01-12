@@ -136,6 +136,32 @@
         .forgot-password a:hover {
             text-decoration: underline;
         }
+        
+        .back-to-store {
+            text-align: center;
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid #e0e0e0;
+        }
+        
+        .btn-back {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #666;
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-back:hover {
+            color: #667eea;
+            background: rgba(102, 126, 234, 0.1);
+            text-decoration: none;
+        }
     </style>
 </head>
 <body>
@@ -187,6 +213,12 @@
         
         <div class="forgot-password">
             <a href="#">¿Olvidaste tu contraseña?</a>
+        </div>
+        
+        <div class="back-to-store">
+            <a href="index.php" class="btn-back">
+                🏪 Regresar a la tienda
+            </a>
         </div>
     </div>
 </body>
