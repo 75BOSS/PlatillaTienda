@@ -10,9 +10,9 @@
        ============================================ */
     
     /* Colores de marca */
-    --primary-color: #C41E3A;        /* Rojo corporativo */
-    --primary-dark: #A01830;         /* Rojo oscuro hover */
-    --primary-light: #D64456;        /* Rojo claro */
+    --primary-color: #800000;        /* Maroon/Guinda corporativo */
+    --primary-dark: #660000;         /* Maroon oscuro hover */
+    --primary-light: #990000;        /* Maroon claro */
     
     --accent-color: #D4AF37;         /* Dorado - acentos */
     --accent-dark: #B8962E;          /* Dorado oscuro */
@@ -42,9 +42,9 @@
     --info-light: #D1ECF1;
     
     /* Colores especiales */
-    --discount-badge: #C41E3A;
-    --new-badge: #C41E3A;
-    --promo-bg: #e8172c;
+    --discount-badge: #800000;
+    --new-badge: #800000;
+    --promo-bg: #800000;
     
     /* Colores de redes sociales */
     --whatsapp-color: #25D366;

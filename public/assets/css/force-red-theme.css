@@ -1,13 +1,18 @@
 /**
  * ===================================================================
- * FORCE-RED-THEME.CSS - Forzar tema rojo
+ * FORCE-RED-THEME.CSS - Forzar tema maroon/guinda
  * ===================================================================
- * Este archivo fuerza los colores rojos para asegurar que se apliquen
+ * Este archivo fuerza los colores maroon para asegurar que se apliquen
  */
 
-/* Forzar colores rojos en elementos principales */
+/* Forzar colores maroon en elementos principales */
 .top-bar {
-    background-color: #C41E3A !important;
+    background-color: #800000 !important;
+    color: white !important;
+}
+
+.promo-bar {
+    background-color: #800000 !important;
     color: white !important;
 }
 
@@ -16,7 +21,7 @@
 }
 
 .logo-text .brand-primary {
-    color: #C41E3A !important;
+    color: #800000 !important;
 }
 
 .logo-text .brand-accent {
@@ -24,78 +29,91 @@
 }
 
 .search-form {
-    border-color: #C41E3A !important;
+    border-color: #800000 !important;
 }
 
 .search-btn {
-    background: #C41E3A !important;
+    background: #800000 !important;
 }
 
 .search-btn:hover {
-    background: #A01830 !important;
+    background: #660000 !important;
 }
 
 .main-nav li a:hover,
 .main-nav li a.active {
-    color: #C41E3A !important;
+    color: #800000 !important;
 }
 
 /* Forzar estilos del hero */
 .hero {
-    background: linear-gradient(135deg, #C41E3A 0%, #A01830 100%) !important;
+    background: linear-gradient(135deg, #800000 0%, #660000 100%) !important;
     color: white !important;
 }
 
-.hero h1 span {
+.hero h1 .accent {
     color: #D4AF37 !important;
 }
 
-.hero a {
-    background: #D4AF37 !important;
-    color: #1A1A1A !important;
-}
-
-/* Forzar colores en productos */
-.product-card .price {
-    color: #C41E3A !important;
-}
-
-.product-card button {
-    background: #C41E3A !important;
+.hero .btn-primary {
+    background: #800000 !important;
     color: white !important;
 }
 
-/* Forzar colores en CTA */
-.cta-section {
-    background: #C41E3A !important;
+.hero .btn-secondary {
+    border-color: white !important;
     color: white !important;
 }
 
-.cta-section a {
-    background: #25D366 !important;
+/* Badges */
+.badge-discount,
+.badge-new {
+    background: #800000 !important;
     color: white !important;
 }
 
-/* Forzar colores en footer */
+/* Botones primarios */
+.btn-primary {
+    background: #800000 !important;
+    color: white !important;
+}
+
+.btn-primary:hover {
+    background: #660000 !important;
+}
+
+/* Precios */
+.price-current {
+    color: #800000 !important;
+}
+
+/* Enlaces de sección */
+.section-link {
+    color: #D4AF37 !important;
+}
+
+/* Títulos con acento */
+.title-accent {
+    color: #D4AF37 !important;
+}
+
+/* Footer */
 .site-footer {
     background: #1A1A1A !important;
     color: white !important;
 }
 
 .footer-section .brand-primary {
-    color: #C41E3A !important;
+    color: #800000 !important;
 }
 
 .footer-section .brand-accent {
     color: #D4AF37 !important;
 }
 
-.footer-social a {
-    background: #C41E3A !important;
-}
-
-.admin-link {
-    color: #D4AF37 !important;
+.footer-store-box {
+    background: #800000 !important;
+    color: white !important;
 }
 
 /* WhatsApp button */
